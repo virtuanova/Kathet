@@ -1,0 +1,106 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/drawers
+
+    Boost drawer layout.
+
+    The purpose of this template is to render the page in a drawer layout.
+
+    Example context (json):
+    {
+        "sitename": "My site",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "htmlattributes": "dir=\"ltr\" lang=\"en\" xml:lang=\"en\"",
+            "headtags": "<meta charset=\"utf-8\">",
+            "bodyattributes": "",
+            "regionmaincontent": "",
+            "footer": "Footer content"
+        },
+        "bodyattributes": "",
+        "hasblocks": true,
+        "addblockbutton": ""
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title_separator }}}{{{ sitename }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body {{{ output.bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="d-print-block">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    {{! Main page header. }}
+    {{> theme_boost/navbar}}
+
+    <div id="page" class="container-fluid d-print-block">
+
+        {{{ output.full_header }}}
+
+        <div id="page-content" class="pb-3 d-print-block">
+
+            <div id="region-main-box">
+
+                {{#hasblocks}}
+                <section id="region-main" class="col-12 h-100" aria-label="{{#str}}content{{/str}}">
+
+                {{/hasblocks}}
+                {{^hasblocks}}
+                <section id="region-main" class="col-12" aria-label="{{#str}}content{{/str}}">
+
+                {{/hasblocks}}
+
+                    {{> core/activity_header }}
+
+                    <div role="main">
+                        <span id="maincontent"></span>
+                        {{{ output.regionmaincontent }}}
+                    </div>
+
+                    {{> core/activity_footer }}
+
+                </section>
+
+                {{#hasblocks}}
+                <section data-region="blocks-column" class="d-print-none col-md-3" aria-label="{{#str}}blocks{{/str}}">
+                    <aside class="side-post-container" data-region="post-blocks-container">
+                        {{{ addblockbutton }}}
+                        {{{ sidepost }}}
+                    </aside>
+                </section>
+                {{/hasblocks}}
+            </div>
+        </div>
+
+        {{{ output.footer }}}
+    </div>
+
+    {{> theme_boost/drawer}}
+    {{{ output.standard_after_main_region_html }}}
+
+</div>
+
+</body>
+</html>
